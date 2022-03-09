@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import cv2
 import argparse
@@ -20,9 +21,14 @@ def main():
     img = cv2.imread(args.image_path, 0).astype(np.float32)
 
     ### TODO ###
+    IMG_NAME = os.path.splitext(os.path.basename(args.image_path))[0]
+    KEYPOINT_PATH = './image_with_keypoint/'
+
     DoG = Difference_of_Gaussian(args.threshold)
     keypoints = DoG.get_keypoints(img)
 
+    os.makedirs(KEYPOINT_PATH, exist_ok=True)
+    plot_keypoints(img, keypoints, os.path.join(KEYPOINT_PATH, f'{IMG_NAME}_{int(args.threshold)}.png'))
 
 if __name__ == '__main__':
     main()
