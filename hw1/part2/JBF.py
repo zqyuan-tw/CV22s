@@ -14,12 +14,15 @@ class Joint_bilateral_filter(object):
         self.Gs = np.exp(
             ((self.pad_w - xx) ** 2 + (self.pad_w - yy) ** 2)/(-2 * (self.sigma_s ** 2)))
 
+        self.table = np.exp(((np.arange(256) / 255) ** 2) /
+                            (-2 * (self.sigma_r ** 2)))
+
     def joint_bilateral_filter(self, img, guidance, improved=True):
         BORDER_TYPE = cv2.BORDER_REFLECT
         padded_img = cv2.copyMakeBorder(
             img, self.pad_w, self.pad_w, self.pad_w, self.pad_w, BORDER_TYPE).astype(np.int32)
         padded_guidance = cv2.copyMakeBorder(
-            guidance, self.pad_w, self.pad_w, self.pad_w, self.pad_w, BORDER_TYPE).astype(np.int32) / 255
+            guidance, self.pad_w, self.pad_w, self.pad_w, self.pad_w, BORDER_TYPE).astype(np.int32)
 
         ### TODO ###
         H, W, C = img.shape
@@ -34,20 +37,19 @@ class Joint_bilateral_filter(object):
                                          self.pad_w + j:W + self.pad_w:self.wndw_size]
                     Tq = padded_guidance[i:Tp.shape[0] * self.wndw_size + i, j:Tp.shape[1] * self.wndw_size + j].reshape(
                         Tp.shape[0], self.wndw_size, Tp.shape[1], self.wndw_size, -1).swapaxes(1, 2).swapaxes(3, 4).swapaxes(2, 3)
-                    e = ((Tp[:, :, :, None, None] - Tq) ** 2) / \
-                        (-2 * (self.sigma_r ** 2))
-                    if e.ndim > 2:
-                        e = e.sum(axis=2)
-                    Gr = np.exp(e)
+                    Gr = cv2.LUT(
+                        np.abs(Tp[:, :, :, None, None] - Tq).astype(np.int8), self.table)
+                    if Gr.ndim > 2:
+                        Gr = Gr.prod(axis=2)
                     G = self.Gs * Gr
                     output[i::self.wndw_size, j::self.wndw_size] = (G[:, :, :, :, None] * padded_img[i:Tp.shape[0] * self.wndw_size + i, j:Tp.shape[1] * self.wndw_size + j].reshape(
                         Tp.shape[0], self.wndw_size, Tp.shape[1], self.wndw_size, -1).swapaxes(1, 2)).sum(axis=(2, 3)) / G.sum(axis=(2, 3)).reshape(Tp.shape[0], Tp.shape[1], 1)
         else:
             for i in range(self.pad_w, H + self.pad_w):
                 for j in range(self.pad_w, W + self.pad_w):
-                    Tp = padded_guidance[i, j]
+                    Tp = padded_guidance[i, j] / 255
                     Tq = padded_guidance[i - self.pad_w:i +
-                                         self.pad_w + 1, j - self.pad_w:j + self.pad_w + 1]
+                                         self.pad_w + 1, j - self.pad_w:j + self.pad_w + 1] / 255
                     e = ((Tp - Tq) ** 2)/(-2 * (self.sigma_r ** 2))
                     if e.ndim > 2:
                         e = e.sum(axis=-1)
