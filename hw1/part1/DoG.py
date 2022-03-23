@@ -30,7 +30,7 @@ class Difference_of_Gaussian(object):
 
         # Step 2: Subtract 2 neighbor images to get DoG images (4 images per octave, 2 octave in total)
         # - Function: cv2.subtract(second_image, first_image)
-        dog_images = [np.stack([cv2.subtract(gaussian_images[j][i], gaussian_images[j][i + 1])
+        dog_images = [np.stack([cv2.subtract(gaussian_images[j][i + 1], gaussian_images[j][i])
                                for i in range(self.num_DoG_images_per_octave)]) for j in range(self.num_octaves)]
 
         # Step 3: Thresholding the value and Find local extremum (local maximun and local minimum)
