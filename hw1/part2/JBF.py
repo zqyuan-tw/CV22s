@@ -19,7 +19,7 @@ class Joint_bilateral_filter(object):
         padded_img = cv2.copyMakeBorder(
             img, self.pad_w, self.pad_w, self.pad_w, self.pad_w, BORDER_TYPE).astype(np.int32)
         padded_guidance = cv2.copyMakeBorder(
-            guidance, self.pad_w, self.pad_w, self.pad_w, self.pad_w, BORDER_TYPE).astype(np.float64) / 255
+            guidance, self.pad_w, self.pad_w, self.pad_w, self.pad_w, BORDER_TYPE).astype(np.int32) / 255
 
         ### TODO ###
         H, W, C = img.shape
