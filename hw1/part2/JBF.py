@@ -38,7 +38,7 @@ class Joint_bilateral_filter(object):
                     Tq = padded_guidance[i:Tp.shape[0] * self.wndw_size + i, j:Tp.shape[1] * self.wndw_size + j].reshape(
                         Tp.shape[0], self.wndw_size, Tp.shape[1], self.wndw_size, -1).swapaxes(1, 2).swapaxes(3, 4).swapaxes(2, 3)
                     Gr = cv2.LUT(
-                        np.abs(Tp[:, :, :, None, None] - Tq).astype(np.int8), self.table)
+                        np.abs(Tp[:, :, :, None, None] - Tq).astype(np.uint8), self.table)
                     if Gr.ndim > 2:
                         Gr = Gr.prod(axis=2)
                     G = self.Gs * Gr
