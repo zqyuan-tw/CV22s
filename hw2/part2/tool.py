@@ -69,7 +69,7 @@ def get_pseudo_labels(data_loader, model, device, threshold=0.65):
             prob, idx = F.softmax(model(data.to(device)), dim=1).max(dim=1)
             for i in range(data.shape[0]):
                 if prob[i] >= threshold:
-                    new_set.append((data[i], idx[i].cpu().item()))
+                    new_set.append((data[i], idx[i].cpu()))
     return new_set
     
 

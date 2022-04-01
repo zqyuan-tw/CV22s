@@ -114,7 +114,7 @@ def data_cleaning(dataset, model, threshold, device, ratio, n_epoch, batch_size,
     print(f"There are {len(dataset)} images in total.")
     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     model = model.to(device)
-    optimizer_weak = optim.Adam(model.parameters(), lr=0.01)
+    optimizer_weak = optim.Adam(model.parameters(), lr=0.0001)
     criterion_weak = nn.CrossEntropyLoss()
     print(f"Training a weak classifier for {n_epoch} epoch.")
     model.train()
