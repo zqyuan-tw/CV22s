@@ -92,7 +92,7 @@ def train(model, train_set, val_set, batch_size, num_epoch, log_path, save_path,
 
     for i in range(num_epoch):
 
-        if do_semi and unlabel_dir is not None and val_acc > 0.72 and i % 5 == 0:
+        if do_semi and unlabel_dir is not None and val_acc > 0.7 and i % 5 == 0:
             pseudo_set = get_pseudo_labels(unlabel_loader, model, device, 0.9)
             print(f"{len(pseudo_set)} unlabeled images with pseudo label are added to training set.")
             train_loader = DataLoader(ConcatDataset([train_set, pseudo_set]), batch_size=batch_size, shuffle=True)

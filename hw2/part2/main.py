@@ -91,7 +91,7 @@ def train_interface():
     # Check tool.py
     train(model=model, train_set=train_set, val_set=val_set, batch_size=batch_size,
           num_epoch=num_epoch, log_path=log_path, save_path=save_path,
-          device=device, criterion=criterion, optimizer=optimizer, scheduler=scheduler, do_semi=False, unlabel_dir='./p2_data/unlabeled')
+          device=device, criterion=criterion, optimizer=optimizer, scheduler=scheduler, do_semi=True, unlabel_dir='./p2_data/unlabeled')
 
     
 if __name__ == '__main__':
