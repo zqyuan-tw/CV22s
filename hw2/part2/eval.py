@@ -35,7 +35,7 @@ def test_result(test_loader, model, device):
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', help='model_path', type=str, default='./save_dir/Resnet/best_model.pt')
+    parser.add_argument('--path', help='model_path', type=str, default='./save_dir/Resnet50/best_model.pt')
     parser.add_argument('--test_anno', help='annotaion for test image', type=str, default= './p2_data/annotations/public_test_annos.json')
     args = parser.parse_args()
 

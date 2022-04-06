@@ -14,7 +14,8 @@ from tool import train, fixed_seed
 
 # Modify config if you are conducting different models
 # from cfg import LeNet_cfg as cfg
-from cfg import Resnet_cfg as cfg
+# from cfg import Resnet_cfg as cfg
+from cfg import Resnet50_cfg as cfg
 
 
 def train_interface():
