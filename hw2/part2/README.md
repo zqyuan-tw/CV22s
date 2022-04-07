@@ -5,15 +5,16 @@
     ```bash
     .
     ├─p2_data
-    | ├─annotations
-    | | ├─public_test_annos.json
-    | | └─train_annos.json
-    | ├─public_test
-    | | └─*.jpg
-    | ├─train
-    | | └─*.jpg
-    | └─unlabeled
-    |   └─*.jpg
+    │ ├─annotations
+    │ │ ├─public_test_annos.json
+    │ │ └─train_annos.json
+    │ ├─public_test
+    │ │ └─*.jpg
+    │ ├─train
+    │ │ └─*.jpg
+    │ └─unlabeled
+    │   └─*.jpg
+    │
     ├─eval.py
     ├─cfg.py
     ├─eval.py
@@ -23,7 +24,7 @@
     ├─tool.py
     └─requirements.txt
     ```
-2. Create a virtual environment and install the required packages.
+2. Create a virtual environment (optional) and install the required packages.
     ```bash
     conda create --name <env> --file requirements.txt
     ```
@@ -32,6 +33,7 @@
     ```python
     model_cfg = {
         'model_type': str,
+        # training data annotations
         'data_root' : './p2_data/annotations/train_annos.json',
         
         # ratio of training images and validation images 
