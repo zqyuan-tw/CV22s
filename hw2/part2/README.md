@@ -61,4 +61,4 @@ python main.py
 python eval.py <--path Path> <--test_anno anno>
 ```
 - `--path`: model_path. Default="./save_dir/Resnet50/best_model.pt"
-- `--test`: annotaion for test image. Default="./p2_data/annotations/public_test_annos.json"
+- `--test_anno`: annotaion for test image. Default="./p2_data/annotations/public_test_annos.json"
