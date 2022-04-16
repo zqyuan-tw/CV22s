@@ -77,14 +77,18 @@ def warping(src, dst, H, ymin, ymax, xmin, xmax, direction='b'):
 
     if direction == 'b':
         # TODO: 3.apply H_inv to the destination pixels and retrieve (u,v) pixels, then reshape to (ymax-ymin),(xmax-xmin)
+        new_coor = H_inv @ dst_coor.T
+        new_coor = np.rint(new_coor / new_coor[-1]).astype(int)
+        new_coor = new_coor[:-1].reshape((2, (ymax - ymin), (xmax - xmin)))
 
         # TODO: 4.calculate the mask of the transformed coordinate (should not exceed the boundaries of source image)
+        mask = (new_coor[0] > 0) * (new_coor[1] > 0) * (new_coor[0] < w_src) * (new_coor[1] < h_src)
 
         # TODO: 5.sample the source image with the masked and reshaped transformed coordinates
+        dst_coor = dst_coor.reshape(((ymax - ymin), (xmax - xmin), -1)).astype(int)
 
         # TODO: 6. assign to destination image with proper masking
-
-        pass
+        dst[dst_coor[:, :, 1][mask], dst_coor[:, :, 0][mask]] = src[new_coor[1][mask], new_coor[0][mask]]
 
     elif direction == 'f':
         # TODO: 3.apply H to the source pixels and retrieve (u,v) pixels, then reshape to (ymax-ymin),(xmax-xmin)
